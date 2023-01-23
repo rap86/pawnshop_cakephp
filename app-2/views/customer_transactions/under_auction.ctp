@@ -1,0 +1,419 @@
+<?php 
+
+	foreach($datas as $key => $value)
+	{
+		$granted_total += $value['CustomerTransaction']['net_amount_duplicate'];
+		
+		if($value['CustomerTransaction']['partial_status'] == 'semiua')
+		{
+			$semiua[ $value['CustomerTransaction']['id'] ] = $value;
+			
+		} else {
+		
+			if($value['CustomerTransaction']['book_id'] == 1)
+			{
+				$pawn_book1[ $value['CustomerTransaction']['id'] ] = $value;
+				
+			} elseif($value['CustomerTransaction']['book_id'] == 2)
+			{
+				$pawn_book2[ $value['CustomerTransaction']['id'] ] = $value;
+				
+			} else {
+				
+				$pawn_book3[ $value['CustomerTransaction']['id'] ] = $value;
+			}
+		}
+	}
+
+?>
+<style>
+#myTab li a {background-color:#ccccb3; border-top-left-radius:2px; border-top-right-radius:2px; }
+#myTab li.active a {border-bottom-color: transparent;background-color:white; }
+</style>
+
+<div class="row">
+	<div class="col-lg-12">
+		<h3 style="border-bottom:1px solid #e5e5cc;" class="w3-pale-green w3-padding w3-border w3-border-green">Under Auction</h3>
+		<!-- Nav tabs -->
+		<div class="w3-margin-top">
+			<p class="w3-border-bottom">Note: All Items here are good to go. FOR <span class="w3-badge w3-blue w3-xlarge">S</span> <span class="w3-badge w3-orange w3-xlarge">A</span> <span class="w3-badge w3-green w3-xlarge">L</span> <span class="w3-badge w3-red w3-xlarge">E</span> </p>
+		</div>
+		<ul class="nav nav-tabs" id="myTab">
+			<li class="active">
+				<a href="#book1" data-toggle="tab">Book 1 <span class="w3-badge w3-red"><?php echo count($pawn_book1); ?></a>
+			</li>
+			<li>
+				<a href="#book2" data-toggle="tab">Book 2 <span class="w3-badge w3-red"><?php echo count($pawn_book2); ?></a>
+			</li>
+			<li>
+				<a href="#book3" data-toggle="tab">Book 3 <span class="w3-badge w3-red"><?php echo count($pawn_book3); ?></a>
+			</li>
+			<li>
+				<a href="#book4" data-toggle="tab">Partial Auctioned <span class="w3-badge w3-red"><?php echo count($semiua); ?></a>
+			</li>
+		</ul>
+
+		<!-- Tab panes -->
+		<div class="tab-content my-tab">
+			<div class="tab-pane fade in active" id="book1">
+				<br />
+				<table width="100%" class="table table-bordered table-hover" id="dataTablesUsers">
+					<thead>
+						<tr>
+							<th>Image</th>
+							<th>Customer</th>
+							<th>Date Pawn</th>
+							<th>Book</th>
+							<th>Item Type</th>
+							<th>Jewelty Type</th>
+							<th>PT No.</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						  <?php foreach($pawn_book1 as $keyua1 => $valueua1): ?>
+
+							<tr>
+								<td class="w3-center">
+								
+									<?php if(trim($valueua1['Customer']['image_name']) != '') { ?>
+							
+										<img src="<?php echo $valueua1['Customer']['image_location']; ?>" alt="Avatar"  height="30px" width="30px">
+									 
+									 <?php } ?>
+									 
+									 <?php if(trim($valueua1['Customer']['image_name']) == '' && $valueua1['Customer']['gender'] == 'male') { ?>
+										
+										<img src="/img/image_male.png" alt="Avatar"  height="30px" width="30px">
+									 
+									 <?php } ?>
+									 
+									 <?php if(trim($valueua1['Customer']['image_name']) == '' && $valueua1['Customer']['gender'] == 'female') { ?>
+										
+										<img src="/img/image_female.png" alt="Avatar"  height="30px" width="30px">
+									 
+									 <?php } ?>
+								</td>
+								<td>
+									<?php echo $valueua1['Customer']['first_name'].' '.$valueua1['Customer']['middle_name'].' ' .$valueua1['Customer']['last_name']; ?>
+								</td>
+								<td>
+									<?php echo date('M j, Y', strtotime($valueua1['CustomerTransaction']['sangla_date'])); ?>
+								</td>
+								<td>
+									<?php echo $valueua1['CustomerTransaction']['book_id']; ?>
+								</td>
+								<td>
+									<?php echo $valueua1['CustomerTransaction']['item_type']; ?>
+								</td>
+								<td>
+									<?php echo $valueua1['CustomerTransaction']['jewelry_type']; ?>
+								</td>
+								<td class="w3-center">
+									<?php echo $valueua1['TransactionInterestPayment'][ count($valueua1['TransactionInterestPayment']) -1 ]['pt_number']; ?>
+								</td>
+								<td>
+									<a href="/customer_transactions/transaction/<?php echo $valueua1['CustomerTransaction']['id']; ?>" class="w3-btn w3-dark-gray w3-round-small">View Details</a>
+								</td>
+							</tr>
+							
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="tab-pane fade" id="book2">
+				<br />
+				<table width="100%" class="table table-bordered table-hover" id="dataTablesUsers">
+					<thead>
+						<tr>
+							<th>Image</th>
+							<th>Customer</th>
+							<th>Date Pawn</th>
+							<th>Book</th>
+							<th>Item Type</th>
+							<th>Jewelty Type</th>
+							<th>PT No.</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						  <?php foreach($pawn_book2 as $keyua2 => $valueua2): ?>
+
+							<tr>
+								<td class="w3-center">
+								
+									<?php if(trim($valueua2['Customer']['image_name']) != '') { ?>
+							
+										<img src="<?php echo $valueua2['Customer']['image_location']; ?>" alt="Avatar"  height="30px" width="30px">
+									 
+									 <?php } ?>
+									 
+									 <?php if(trim($valueua2['Customer']['image_name']) == '' && $valueua2['Customer']['gender'] == 'male') { ?>
+										
+										<img src="/img/image_male.png" alt="Avatar"  height="30px" width="30px">
+									 
+									 <?php } ?>
+									 
+									 <?php if(trim($valueua2['Customer']['image_name']) == '' && $valueua2['Customer']['gender'] == 'female') { ?>
+										
+										<img src="/img/image_female.png" alt="Avatar"  height="30px" width="30px">
+									 
+									 <?php } ?>
+								</td>
+								<td>
+									<?php echo $valueua2['Customer']['first_name'].' '.$valueua2['Customer']['middle_name'].' ' .$valueua2['Customer']['last_name']; ?>
+								</td>
+								<td>
+									<?php echo date('M j, Y', strtotime($valueua2['CustomerTransaction']['sangla_date'])); ?>
+								</td>
+								<td>
+									<?php echo $valueua2['CustomerTransaction']['book_id']; ?>
+								</td>
+								<td>
+									<?php echo $valueua2['CustomerTransaction']['item_type']; ?>
+								</td>
+								<td>
+									<?php echo $valueua2['CustomerTransaction']['jewelry_type']; ?>
+								</td>
+								<td class="w3-center">
+									<?php echo $valueua2['TransactionInterestPayment'][ count($valueua2['TransactionInterestPayment']) -1 ]['pt_number']; ?>
+								</td>
+								<td>
+									<a href="/customer_transactions/transaction/<?php echo $valueua2['CustomerTransaction']['id']; ?>" class="w3-btn w3-dark-gray w3-round-small">View Details</a>
+								</td>
+							</tr>
+							
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="tab-pane fade" id="book3">
+				<br />
+				<table width="100%" class="table table-bordered table-hover" id="dataTablesUsers">
+					<thead>
+						<tr>
+							<th>Image</th>
+							<th>Customer</th>
+							<th>Date Pawn</th>
+							<th>Book</th>
+							<th>Item Type</th>
+							<th>Jewelty Type</th>
+							<th>PT No.</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						  <?php foreach($pawn_book3 as $keyua3 => $valueua3): ?>
+
+							<tr>
+								<td class="w3-center">
+								
+									<?php if(trim($valueua3['Customer']['image_name']) != '') { ?>
+							
+										<img src="<?php echo $valueua3['Customer']['image_location']; ?>" alt="Avatar"  height="30px" width="30px">
+									 
+									 <?php } ?>
+									 
+									 <?php if(trim($valueua3['Customer']['image_name']) == '' && $valueua3['Customer']['gender'] == 'male') { ?>
+										
+										<img src="/img/image_male.png" alt="Avatar"  height="30px" width="30px">
+									 
+									 <?php } ?>
+									 
+									 <?php if(trim($valueua3['Customer']['image_name']) == '' && $valueua3['Customer']['gender'] == 'female') { ?>
+										
+										<img src="/img/image_female.png" alt="Avatar"  height="30px" width="30px">
+									 
+									 <?php } ?>
+								</td>
+								<td>
+									<?php echo $valueua3['Customer']['first_name'].' '.$valueua3['Customer']['middle_name'].' ' .$valueua3['Customer']['last_name']; ?>
+								</td>
+								<td>
+									<?php echo date('M j, Y', strtotime($valueua3['CustomerTransaction']['sangla_date'])); ?>
+								</td>
+								<td>
+									<?php echo $valueua3['CustomerTransaction']['book_id']; ?>
+								</td>
+								<td>
+									<?php echo $valueua3['CustomerTransaction']['item_type']; ?>
+								</td>
+								<td>
+									<?php echo $valueua3['CustomerTransaction']['jewelry_type']; ?>
+								</td>
+								<td class="w3-center">
+									<?php echo $valueua3['TransactionInterestPayment'][ count($valueua3['TransactionInterestPayment']) -1 ]['pt_number']; ?>
+								</td>
+								<td>
+									<a href="/customer_transactions/transaction/<?php echo $valueua3['CustomerTransaction']['id']; ?>" class="w3-btn w3-dark-gray w3-round-small">View Details</a>
+								</td>
+							</tr>
+							
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
+			
+			<div class="tab-pane fade" id="book4">
+				<br />
+				<table width="100%" class="table table-bordered table-hover" id="dataTablesUsers">
+					<thead>
+						<tr>
+							<th>Image</th>
+							<th>Customer</th>
+							<th>Date Pawn</th>
+							<th>Book</th>
+							<th>Item Type</th>
+							<th>Jewelty Type</th>
+							<th>PT No.</th>
+							<th>Actions</th>
+						</tr>
+					</thead>
+					<tbody>
+						  <?php foreach($semiua as $keySemi => $valueSemi): ?>
+						  
+							<?php auctionedStatus($valueSemi); ?>
+
+							<tr>
+								<td class="w3-center">
+								
+									<?php if(trim($valueSemi['Customer']['image_name']) != '') { ?>
+							
+										<img src="<?php echo $valueSemi['Customer']['image_location']; ?>" alt="Avatar"  height="30px" width="30px">
+									 
+									 <?php } ?>
+									 
+									 <?php if(trim($valueSemi['Customer']['image_name']) == '' && $valueSemi['Customer']['gender'] == 'male') { ?>
+										
+										<img src="/img/image_male.png" alt="Avatar"  height="30px" width="30px">
+									 
+									 <?php } ?>
+									 
+									 <?php if(trim($valueSemi['Customer']['image_name']) == '' && $valueSemi['Customer']['gender'] == 'female') { ?>
+										
+										<img src="/img/image_female.png" alt="Avatar"  height="30px" width="30px">
+									 
+									 <?php } ?>
+								</td>
+								<td>
+									<?php echo $valueSemi['Customer']['first_name'].' '.$valueSemi['Customer']['middle_name'].' ' .$valueSemi['Customer']['last_name']; ?>
+								</td>
+								<td>
+									<?php echo date('M j, Y', strtotime($valueSemi['CustomerTransaction']['sangla_date'])); ?>
+								</td>
+								<td>
+									<?php echo $valueSemi['CustomerTransaction']['book_id']; ?>
+								</td>
+								<td>
+									<?php echo $valueSemi['CustomerTransaction']['item_type']; ?>
+								</td>
+								<td>
+									<?php echo $valueSemi['CustomerTransaction']['jewelry_type']; ?>
+								</td>
+								<td class="w3-center">
+									<?php echo $valueSemi['TransactionInterestPayment'][ count($valueSemi['TransactionInterestPayment']) -1 ]['pt_number']; ?>
+								</td>
+								<td>
+									<a class="w3-button w3-amber w3-round-small" data-toggle="modal" data-target="#myModalAuctionedItem">Done</a>
+									<a href="/customer_transactions/transaction/<?php echo $valueSemi['CustomerTransaction']['id']; ?>" class="w3-btn w3-dark-gray w3-round-small">View Details</a>
+								</td>
+							</tr>
+							
+						<?php endforeach; ?>
+					</tbody>
+				</table>
+			</div>
+			
+		</div>
+		<p style="font-size:24px;"><b>Total Granted Amount:</b> <span style="font-weight:bold; color:red;"><?php echo  number_format($granted_total, 0);  ?></span><p>
+	</div>
+	<!-- /.col-lg-12 -->
+</div>
+<!-- /.row -->
+
+<?php function auctionedStatus($data) { ?>
+
+	<!-- Modal -->
+	<div class="modal fade" id="myModalAuctionedItem" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+		<div class="modal-dialog">
+			<form method="post" action="/transaction_sold_items/auctioned_status">
+				<div class="modal-content">
+					
+					 <input name="data[TransactionSoldItem][customer_transaction_id]" value="<?php echo $data['CustomerTransaction']['id']; ?>" type="hidden">
+					 <input name="data[TransactionSoldItem][status]" value="auctioned" type="hidden">
+				  
+					<div class="modal-header w3-amber">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+						<h4 class="modal-title" id="myModalLabel">SET STATUS AS AUCTION</h4>
+					</div>
+					<div class="modal-body">
+						
+					  <div class="form-horizontal">
+							<p>Are you sure?</p>
+					   </div>
+					  
+					</div>
+					<div class="modal-footer">
+						<button type="submit" class="w3-button w3-border w3-dark-gray w3-round-small pull-left" id="buttonYesstatus" style="display:none;">YES</button>
+						<div class="w3-button w3-border w3-dark-gray w3-round-small pull-left" id="buttonConfirmationYesstatus">YES</div>
+						<button type="button" class="w3-button w3-border w3-dark-gray w3-round-small" data-dismiss="modal">NO</button>
+					</div>
+				</div>
+				<!-- /.modal-content -->
+			</form>
+		</div>
+		<!-- /.modal-dialog -->
+	</div>
+	<!-- /.modal -->
+<?php } ?>
+
+
+<script src="/js/jquery.min.js"></script>
+<script>
+$(document).ready(function() {
+	
+	$('img').click(function() {
+		
+		Swal.fire({
+		  title: 'Image',
+		  imageUrl: $(this).attr('src'),
+		  imageWidth: 400,
+		  imageHeight: 200,
+		  imageAlt: 'Image',
+		  animation: false
+		})
+	});
+	
+	$('table#dataTablesUsers').DataTable({
+		responsive: true,
+		"pageLength": 25
+	});
+	
+	$('div#buttonConfirmationYesstatus').click(function() {
+	
+		Swal.fire({
+		  title: 'Are you sure?',
+		  text: "You won't be able to revert this!",
+		  type: 'warning',
+		  showCancelButton: true,
+		  confirmButtonColor: '#3085d6',
+		  cancelButtonColor: '#d33',
+		  confirmButtonText: 'Yes, save it!'
+		}).then((result) => {
+			  if (result.value) {
+				
+				$('#buttonYesstatus').trigger('click');
+				
+			  } else {
+			  
+				location.reload();
+			  
+			  }
+		});	
+
+	});
+	
+});
+</script>
